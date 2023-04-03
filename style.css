@@ -1,0 +1,52 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.body {
+    background-color: lightgray;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.calcButtons {
+    background-color: gray;
+    display: flex;
+}
+
+.calcDisplay {
+    background-color: darkgray;
+    display: flex;
+}
+
+#numButtons {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#numButtons button {
+    flex-basis: 33.333333%;
+}
+
+#opButtons {
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    font-size: xx-large;
+    font-weight: bold;
+    margin-top: -25px;
+    margin-bottom: -20px;
+}
+
+.footer{
+    margin-top: auto;
+    font-size: x-large;
+}

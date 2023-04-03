@@ -2,6 +2,32 @@ let numOne;
 let numTwo;
 let operator;
 
+const calcDisplay = document.getElementById('display');
+const numButtons = document.getElementById('numButtons');
+const opButtons = document.getElementById('opButtons');
+const clearButton = document.getElementById('clear');
+
+numButtons.addEventListener('click', (e) => {
+    const isButton = e.target.nodeName === 'BUTTON';
+    if (!isButton)
+        return
+    else
+        calcDisplay.textContent += e.target.textContent;
+});
+
+opButtons.addEventListener('click', (e) => {
+    const isButton = e.target.nodeName === 'BUTTON';
+    if (!isButton)
+        return
+    else
+        calcDisplay.textContent += e.target.textContent;
+});
+
+clearButton.addEventListener('click', (e) => {
+    calcDisplay.textContent = ' ';
+})
+
+
 function operate(numOne, numTwo, operator){
     switch (operator){
         case '+':
