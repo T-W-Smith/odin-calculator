@@ -6,6 +6,7 @@ const calcDisplay = document.getElementById('display');
 const numButtons = document.getElementById('numButtons');
 const opButtons = document.getElementById('opButtons');
 const clearButton = document.getElementById('clear');
+const deleteButton = document.getElementById('delete');
 const equalsButton = document.getElementById('equals');
 
 numButtons.addEventListener('click', (e) => {
@@ -18,20 +19,29 @@ numButtons.addEventListener('click', (e) => {
 
 opButtons.addEventListener('click', (e) => {
     const isButton = e.target.nodeName === 'BUTTON';
-    if (!isButton)
+    if (!isButton || !calcDisplay.textContent)
         return;
-    else
+    else {
         numOne = Number(calcDisplay.textContent);
         operator = e.target.textContent;
-        clearDisplay();
+    }
 });
 
 clearButton.addEventListener('click', clearDisplay);
 
+deleteButton.addEventListener('click', (e) => {
+    newVal = calcDisplay.textContent.slice(0, calcDisplay.textContent.length - 1);
+    calcDisplay.textContent = newVal;
+})
+
 equalsButton.addEventListener('click', (e) => {
-    numTwo = Number(calcDisplay.textContent);
-    clearDisplay();
-    operate(numOne, numTwo, operator)
+    if (!calcDisplay.textContent)
+        return;
+    else {
+        numTwo = Number(calcDisplay.textContent);
+        clearDisplay();
+        operate(numOne, numTwo, operator)
+    }
 })
 
 function clearDisplay(){
