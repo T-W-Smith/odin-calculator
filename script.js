@@ -13,40 +13,45 @@ numButtons.addEventListener('click', (e) => {
     const isButton = e.target.nodeName === 'BUTTON';
     if (!isButton || e.target.id === 'equals')
         return;
-    else
-        calcDisplay.textContent += e.target.textContent;
+    else {
+        if (operator && !numTwo){
+            calcDisplay.textContent = e.target.textContent;
+            numTwo = Number(e.target.textContent);
+        }
+        else
+            calcDisplay.textContent += e.target.textContent;
+    }
 });
 
 opButtons.addEventListener('click', (e) => {
     const isButton = e.target.nodeName === 'BUTTON';
     if (!isButton || !calcDisplay.textContent)
         return;
-    else {
-        numOne = Number(calcDisplay.textContent);
+    else
         operator = e.target.textContent;
-    }
+        numOne = Number(calcDisplay.textContent);
 });
 
-clearButton.addEventListener('click', clearDisplay);
+clearButton.addEventListener('click', () => {
+    calcDisplay.textContent = '';
+    numOne = null;
+    numTwo = null;
+    operator = null;
+});
 
-deleteButton.addEventListener('click', (e) => {
+deleteButton.addEventListener('click', () => {
     newVal = calcDisplay.textContent.slice(0, calcDisplay.textContent.length - 1);
     calcDisplay.textContent = newVal;
-})
+});
 
-equalsButton.addEventListener('click', (e) => {
+equalsButton.addEventListener('click', () => {
     if (!calcDisplay.textContent)
         return;
     else {
         numTwo = Number(calcDisplay.textContent);
-        clearDisplay();
         operate(numOne, numTwo, operator)
     }
-})
-
-function clearDisplay(){
-    calcDisplay.textContent = '';
-}
+});
 
 function operate(one, two, op){
     switch (op){
