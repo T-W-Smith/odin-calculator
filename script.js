@@ -1,6 +1,7 @@
-let numOne;
-let numTwo;
+let numOne, numTwo;
 let operator;
+let finalNum;
+let refreshScreen = false;
 
 const calcDisplay = document.getElementById('display');
 const numButtons = document.getElementById('numButtons');
@@ -10,33 +11,31 @@ const deleteButton = document.getElementById('delete');
 const equalsButton = document.getElementById('equals');
 
 numButtons.addEventListener('click', (e) => {
-    const isButton = e.target.nodeName === 'BUTTON';
-    if (!isButton || e.target.id === 'equals')
+    console.log(refreshScreen);
+    if (e.target.id === 'equals')
         return;
     else {
-        if (operator && !numTwo){
-            calcDisplay.textContent = e.target.textContent;
-            numTwo = Number(e.target.textContent);
+        if (calcDisplay.textContent === '0' || refreshScreen){
+            refresh();
         }
-        else
-            calcDisplay.textContent += e.target.textContent;
+        calcDisplay.textContent += e.target.textContent;
     }
 });
 
 opButtons.addEventListener('click', (e) => {
-    const isButton = e.target.nodeName === 'BUTTON';
-    if (!isButton || !calcDisplay.textContent)
+    if (!calcDisplay.textContent)
         return;
     else
         operator = e.target.textContent;
         numOne = Number(calcDisplay.textContent);
+        refreshScreen = true;
 });
 
 clearButton.addEventListener('click', () => {
-    calcDisplay.textContent = '';
-    numOne = null;
-    numTwo = null;
-    operator = null;
+    calcDisplay.textContent = '0';
+    numOne = undefined;
+    numTwo = undefined;
+    operator = undefined;
 });
 
 deleteButton.addEventListener('click', () => {
@@ -50,8 +49,14 @@ equalsButton.addEventListener('click', () => {
     else {
         numTwo = Number(calcDisplay.textContent);
         operate(numOne, numTwo, operator)
+        refreshScreen = true;
     }
 });
+
+function refresh(){
+    calcDisplay.textContent = '';
+    refreshScreen = false;
+}
 
 function operate(one, two, op){
     switch (op){
@@ -73,21 +78,25 @@ function operate(one, two, op){
 }
 
 function add(num1, num2){
-    newNum = num1 + num2;
-    calcDisplay.textContent = newNum;
+    finalNum = num1 + num2;
+    calcDisplay.textContent = finalNum;
+    num1 = finalNum;
 }
 
 function subtract(num1, num2){
-    newNum = num1 - num2;
-    calcDisplay.textContent = newNum;
+    finalNum = num1 - num2;
+    calcDisplay.textContent = finalNum;
+    num1 = finalNum;
 }
 
 function multiply(num1, num2){
-    newNum = num1 * num2;
-    calcDisplay.textContent = newNum;
+    finalNum = num1 * num2;
+    calcDisplay.textContent = finalNum;
+    num1 = finalNum;
 }
 
 function divide(num1, num2){
-    newNum = num1 / num2;
-    calcDisplay.textContent = newNum;
+    finalNum = num1 / num2;
+    calcDisplay.textContent = finalNum;
+    num1 = finalNum;
 }
