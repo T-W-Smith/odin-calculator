@@ -3,7 +3,8 @@ let operator;
 let finalNum;
 let refreshScreen = false;
 
-const calcDisplay = document.getElementById('display');
+const currentDisplay = document.getElementById('currentDisplay');
+const prevDisplay = document.getElementById('prevDisplay');
 const numButtons = document.getElementById('numButtons');
 const opButtons = document.getElementById('opButtons');
 const clearButton = document.getElementById('clear');
@@ -15,46 +16,49 @@ numButtons.addEventListener('click', (e) => {
     if (e.target.id === 'equals')
         return;
     else {
-        if (calcDisplay.textContent === '0' || refreshScreen){
+        if (currentDisplay.textContent === '0' || refreshScreen){
             refresh();
         }
-        calcDisplay.textContent += e.target.textContent;
+        currentDisplay.textContent += e.target.textContent;
     }
 });
 
 opButtons.addEventListener('click', (e) => {
-    if (!calcDisplay.textContent)
+    if (!currentDisplay.textContent)
         return;
     else
         operator = e.target.textContent;
-        numOne = Number(calcDisplay.textContent);
+        numOne = Number(currentDisplay.textContent);
         refreshScreen = true;
+        prevDisplay.textContent = numOne + ' ' + operator;
 });
 
 clearButton.addEventListener('click', () => {
-    calcDisplay.textContent = '0';
+    currentDisplay.textContent = '0';
+    prevDisplay.textContent = '';
     numOne = undefined;
     numTwo = undefined;
     operator = undefined;
 });
 
 deleteButton.addEventListener('click', () => {
-    newVal = calcDisplay.textContent.slice(0, calcDisplay.textContent.length - 1);
-    calcDisplay.textContent = newVal;
+    newVal = currentDisplay.textContent.slice(0, currentDisplay.textContent.length - 1);
+    currentDisplay.textContent = newVal;
 });
 
 equalsButton.addEventListener('click', () => {
-    if (!calcDisplay.textContent)
+    if (!currentDisplay.textContent)
         return;
     else {
-        numTwo = Number(calcDisplay.textContent);
+        numTwo = Number(currentDisplay.textContent);
         operate(numOne, numTwo, operator)
         refreshScreen = true;
+        prevDisplay.textContent += ' ' + numTwo;
     }
 });
 
 function refresh(){
-    calcDisplay.textContent = '';
+    currentDisplay.textContent = '';
     refreshScreen = false;
 }
 
@@ -79,24 +83,24 @@ function operate(one, two, op){
 
 function add(num1, num2){
     finalNum = num1 + num2;
-    calcDisplay.textContent = finalNum;
+    currentDisplay.textContent = finalNum;
     num1 = finalNum;
 }
 
 function subtract(num1, num2){
     finalNum = num1 - num2;
-    calcDisplay.textContent = finalNum;
+    currentDisplay.textContent = finalNum;
     num1 = finalNum;
 }
 
 function multiply(num1, num2){
     finalNum = num1 * num2;
-    calcDisplay.textContent = finalNum;
+    currentDisplay.textContent = finalNum;
     num1 = finalNum;
 }
 
 function divide(num1, num2){
     finalNum = num1 / num2;
-    calcDisplay.textContent = finalNum;
+    currentDisplay.textContent = finalNum;
     num1 = finalNum;
 }

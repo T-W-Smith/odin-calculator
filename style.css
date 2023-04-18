@@ -23,6 +23,7 @@
 .calcDisplay {
     background-color: darkgray;
     display: flex;
+    flex-direction: column;
 }
 
 #numButtons {
