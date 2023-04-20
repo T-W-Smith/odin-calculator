@@ -2,6 +2,7 @@ let numOne, numTwo;
 let operator;
 let finalNum;
 let refreshScreen = false;
+let completedOp = false;
 
 const currentDisplay = document.getElementById('currentDisplay');
 const prevDisplay = document.getElementById('prevDisplay');
@@ -12,24 +13,20 @@ const deleteButton = document.getElementById('delete');
 const equalsButton = document.getElementById('equals');
 
 numButtons.addEventListener('click', (e) => {
-    console.log(refreshScreen);
-    if (e.target.id === 'equals')
-        return;
-    else {
-        if (currentDisplay.textContent === '0' || refreshScreen){
-            refresh();
-        }
-        currentDisplay.textContent += e.target.textContent;
+    if (currentDisplay.textContent === '0' || refreshScreen){
+        refresh();
     }
+    currentDisplay.textContent += e.target.textContent;
 });
 
 opButtons.addEventListener('click', (e) => {
-    if (!currentDisplay.textContent)
+    if (!currentDisplay.textContent || e.target.id === 'equals')
         return;
     else
         operator = e.target.textContent;
         numOne = Number(currentDisplay.textContent);
         refreshScreen = true;
+        completedOp = false;
         prevDisplay.textContent = numOne + ' ' + operator;
 });
 
@@ -39,6 +36,7 @@ clearButton.addEventListener('click', () => {
     numOne = undefined;
     numTwo = undefined;
     operator = undefined;
+    completedOp = false;
 });
 
 deleteButton.addEventListener('click', () => {
@@ -47,13 +45,19 @@ deleteButton.addEventListener('click', () => {
 });
 
 equalsButton.addEventListener('click', () => {
-    if (!currentDisplay.textContent)
+    if (completedOp) {
+        prevDisplay.textContent = numOne + ' ' + operator + ' ' + numTwo;
+        refreshScreen = true;
+        operate(numOne, numTwo, operator)
+    }
+    else if (!currentDisplay.textContent || !operator)
         return;
     else {
         numTwo = Number(currentDisplay.textContent);
-        operate(numOne, numTwo, operator)
+        prevDisplay.textContent = numOne + ' ' + operator + ' ' + numTwo;
         refreshScreen = true;
-        prevDisplay.textContent += ' ' + numTwo;
+        completedOp = true;
+        operate(numOne, numTwo, operator)
     }
 });
 
@@ -63,6 +67,7 @@ function refresh(){
 }
 
 function operate(one, two, op){
+    console.log(numOne + '   ' + numTwo + '   ' + operator);
     switch (op){
         case '+':
             add(one, two);
@@ -84,23 +89,23 @@ function operate(one, two, op){
 function add(num1, num2){
     finalNum = num1 + num2;
     currentDisplay.textContent = finalNum;
-    num1 = finalNum;
+    numOne = finalNum;
 }
 
 function subtract(num1, num2){
     finalNum = num1 - num2;
     currentDisplay.textContent = finalNum;
-    num1 = finalNum;
+    numOne = finalNum;
 }
 
 function multiply(num1, num2){
     finalNum = num1 * num2;
     currentDisplay.textContent = finalNum;
-    num1 = finalNum;
+    numOne = finalNum;
 }
 
 function divide(num1, num2){
     finalNum = num1 / num2;
     currentDisplay.textContent = finalNum;
-    num1 = finalNum;
+    numOne = finalNum;
 }
