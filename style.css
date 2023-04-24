@@ -15,29 +15,13 @@
     flex-direction: column;
 }
 
-.calcButtons {
-    background-color: gray;
-    display: flex;
-}
-
-.calcDisplay {
-    background-color: darkgray;
-    display: flex;
-    flex-direction: column;
-}
-
-#numButtons {
+.buttons {
     display: flex;
     flex-wrap: wrap;
 }
 
-#numButtons button {
-    flex-basis: 33.333333%;
-}
-
-#opButtons {
-    display: flex;
-    flex-direction: column;
+.buttons button {
+    flex-basis: 25%;
 }
 
 .header {

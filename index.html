@@ -16,35 +16,28 @@
 
         <main class="main">
             <div class="container">
-                <div class="calcDisplay">
-                    <div id="prevDisplay"></div>
-                    <div id="currentDisplay">0</div>
-                </div>
-                <div class="removeButtons">
-                    <button id="clear">Clear</button>
-                    <button id="delete">Delete</button>
-                </div>
-                <div class="calcButtons">
-                    <div id="numButtons">
-                        <button id="seven">7</button>
-                        <button id="eight">8</button>
-                        <button id="nine">9</button>
-                        <button id="four">4</button>
-                        <button id="five">5</button>
-                        <button id="six">6</button>
-                        <button id="one">1</button>
-                        <button id="two">2</button>
-                        <button id="three">3</button>
-                        <button id="zero">0</button>
-                        <button id="dot">.</button>
-                    </div>
-                    <div id="opButtons">
-                        <button id="divide">/</button>
-                        <button id="multi">*</button>
-                        <button id="sub">-</button>
-                        <button id="add">+</button>
-                        <button id="equals">=</button>
-                    </div>
+                <div id="prevDisplay"></div>
+                <div id="currentDisplay">0</div>
+                <div class="buttons">
+                    <button id="clear">C</button>
+                    <button id="delete">Del</button>
+                    <button id="pos-neg">+/-</button>
+                    <button class="opButton" data-num="/">/</button>
+                    <button class="numButton" data-num="7">7</button>
+                    <button class="numButton" data-num="8">8</button>
+                    <button class="numButton" data-num="9">9</button>
+                    <button class="opButton" data-num="*">*</button>
+                    <button class="numButton" data-num="4">4</button>
+                    <button class="numButton" data-num="5">5</button>
+                    <button class="numButton" data-num="6">6</button>
+                    <button class="opButton" data-num="-">-</button>
+                    <button class="numButton" data-num="1">1</button>
+                    <button class="numButton" data-num="2">2</button>
+                    <button class="numButton" data-num="3">3</button>
+                    <button class="opButton" data-num="+">+</button>
+                    <button class="numButton" data-num="0">0</button>
+                    <button class="numButton" data-num=".">.</button>
+                    <button id="equals">=</button>
                 </div>
             </div>
         </main>
