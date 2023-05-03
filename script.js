@@ -102,18 +102,21 @@ function operate(one, two, op){
 
 function add(num1, num2){
     finalNum = num1 + num2;
+    finalNum = roundTo(finalNum);
     currentDisplay.textContent = finalNum;
     numOne = finalNum;
 }
 
 function subtract(num1, num2){
     finalNum = num1 - num2;
+    finalNum = roundTo(finalNum);
     currentDisplay.textContent = finalNum;
     numOne = finalNum;
 }
 
 function multiply(num1, num2){
     finalNum = num1 * num2;
+    finalNum = roundTo(finalNum);
     currentDisplay.textContent = finalNum;
     numOne = finalNum;
 }
@@ -124,6 +127,7 @@ function divide(num1, num2){
     }
     else {
         finalNum = num1 / num2;
+        finalNum = roundTo(finalNum);
         currentDisplay.textContent = finalNum;
         numOne = finalNum;
     }
@@ -135,4 +139,20 @@ function divideZero(){
     numTwo = undefined;
     operator = undefined;
     completedOp = false;
+}
+
+function roundTo(n) {
+    var negative = false;
+    var digits = 4;
+    if (n < 0) {
+        negative = true;
+        n = n * -1;
+    }
+    var multiplicator = Math.pow(10, digits);
+    n = parseFloat((n * multiplicator).toFixed(11));
+    n = (Math.round(n) / multiplicator).toFixed(digits);
+    if (negative) {
+        n = (n * -1).toFixed(digits);
+    }
+    return n;
 }
