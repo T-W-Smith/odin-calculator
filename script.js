@@ -38,7 +38,7 @@ opButtons.forEach(button => {
 
 clearButton.addEventListener('click', () => {
     currentDisplay.textContent = '0';
-    prevDisplay.textContent = '';
+    prevDisplay.textContent = '\xa0';
     numOne = undefined;
     numTwo = undefined;
     operator = undefined;

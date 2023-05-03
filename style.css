@@ -6,22 +6,43 @@
     background-color: lightgray;
     display: flex;
     flex-direction: column;
+    text-align: center;
     min-height: 100vh;
 }
 
-.container {
+.main {
+    width: 300px;
+    align-self: center;
+}
+
+.display {
+    width: 100%;
+    background-color: darkGrey;
+    height: 48px;
+}
+
+#prevDisplay {
+    font-size: 16px;
     display: flex;
-    align-items: center;
-    flex-direction: column;
+    justify-content: flex-end;    
+}
+
+#currentDisplay {
+    font-size: 32px;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .buttons {
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
+    height: 300px;
 }
 
 .buttons button {
     flex-basis: 25%;
+    font-size: 32px;
 }
 
 .header {
