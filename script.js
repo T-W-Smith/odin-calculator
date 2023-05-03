@@ -119,7 +119,20 @@ function multiply(num1, num2){
 }
 
 function divide(num1, num2){
-    finalNum = num1 / num2;
-    currentDisplay.textContent = finalNum;
-    numOne = finalNum;
+    if (num2 === 0) {
+        divideZero();
+    }
+    else {
+        finalNum = num1 / num2;
+        currentDisplay.textContent = finalNum;
+        numOne = finalNum;
+    }
+}
+
+function divideZero(){
+    currentDisplay.textContent = 'Error';
+    numOne = undefined;
+    numTwo = undefined;
+    operator = undefined;
+    completedOp = false;
 }
