@@ -11,6 +11,7 @@ const opButtons = document.querySelectorAll('.opButton');
 const clearButton = document.getElementById('clear');
 const deleteButton = document.getElementById('delete');
 const equalsButton = document.getElementById('equals');
+const posNegButton = document.getElementById('pos-neg');
 
 numButtons.forEach(button => {
     button.addEventListener('click', (e) => {
@@ -65,6 +66,13 @@ equalsButton.addEventListener('click', () => {
         completedOp = true;
         operate(numOne, numTwo, operator)
     }
+});
+
+posNegButton.addEventListener('click', () => {
+    if (Number(currentDisplay.textContent) > 0)
+        currentDisplay.textContent = (Number(currentDisplay.textContent) * -1);
+    else 
+        currentDisplay.textContent = (Math.abs(Number(currentDisplay.textContent)));
 });
 
 function refresh(){
