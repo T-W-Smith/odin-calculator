@@ -61,7 +61,9 @@ deleteButton.addEventListener('click', () => {
     delVal = currentDisplay.textContent.charAt(currentDisplay.textContent.length - 1);
     if (delVal === '.')
         isDecimal = false;
-    currentDisplay.textContent = currentDisplay.textContent.slice(0, currentDisplay.textContent.length - 1);;
+    currentDisplay.textContent = currentDisplay.textContent.slice(0, currentDisplay.textContent.length - 1);
+    if (!currentDisplay.textContent)
+        currentDisplay.textContent = '0';
 });
 
 equalsButton.addEventListener('click', () => {
@@ -86,7 +88,9 @@ function equals(){
 }
 
 posNegButton.addEventListener('click', () => {
-    if (Number(currentDisplay.textContent) > 0)
+    if (currentDisplay.textContent === '0')
+        currentDisplay.textContent = '-'
+    else if (Number(currentDisplay.textContent) > 0)
         currentDisplay.textContent = (Number(currentDisplay.textContent) * -1);
     else 
         currentDisplay.textContent = (Math.abs(Number(currentDisplay.textContent)));
@@ -105,7 +109,6 @@ function refresh(){
 }
 
 function operate(one, two, op){
-    console.log(numOne + '   ' + numTwo + '   ' + operator);
     switch (op){
         case '+':
             add(one, two);
