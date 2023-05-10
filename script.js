@@ -3,6 +3,7 @@ let operator;
 let finalNum;
 let refreshScreen = false;
 let completedOp = false;
+let isDecimal = false;
 
 const currentDisplay = document.getElementById('currentDisplay');
 const prevDisplay = document.getElementById('prevDisplay');
@@ -12,46 +13,62 @@ const clearButton = document.getElementById('clear');
 const deleteButton = document.getElementById('delete');
 const equalsButton = document.getElementById('equals');
 const posNegButton = document.getElementById('pos-neg');
+const decButton = document.getElementById('decimal');
 
 numButtons.forEach(button => {
     button.addEventListener('click', (e) => {
-        if (currentDisplay.textContent === '0' || refreshScreen){
+        if (completedOp)
+            clear();
+        if (currentDisplay.textContent === '0' || refreshScreen)
             refresh();
-        }
-        const numValue = button.getAttribute('data-num');
-        currentDisplay.textContent += numValue;
+        currentDisplay.textContent += button.getAttribute('data-num');;
     })
 });
 
 opButtons.forEach(button => {
     button.addEventListener('click', (e) => {
+        if (numOne)
+            equals();
         if (!currentDisplay.textContent)
             return;
-        else
-            opValue = button.getAttribute('data-num');
-            operator = opValue;
+        else {
+            isDecimal = false;
+            operator = button.getAttribute('data-num');
             numOne = Number(currentDisplay.textContent);
             refreshScreen = true;
             completedOp = false;
             prevDisplay.textContent = numOne + ' ' + operator;
+        }
     })
 });
 
 clearButton.addEventListener('click', () => {
+    clear();
+});
+
+function clear(){
     currentDisplay.textContent = '0';
     prevDisplay.textContent = '\xa0';
     numOne = undefined;
     numTwo = undefined;
     operator = undefined;
     completedOp = false;
-});
+    isDecimal = false;
+    roundOp = false;
+}
 
 deleteButton.addEventListener('click', () => {
-    newVal = currentDisplay.textContent.slice(0, currentDisplay.textContent.length - 1);
-    currentDisplay.textContent = newVal;
+    delVal = currentDisplay.textContent.charAt(currentDisplay.textContent.length - 1);
+    if (delVal === '.')
+        isDecimal = false;
+    currentDisplay.textContent = currentDisplay.textContent.slice(0, currentDisplay.textContent.length - 1);;
 });
 
 equalsButton.addEventListener('click', () => {
+    equals();
+});
+
+function equals(){
     if (completedOp) {
         prevDisplay.textContent = numOne + ' ' + operator + ' ' + numTwo;
         refreshScreen = true;
@@ -66,7 +83,7 @@ equalsButton.addEventListener('click', () => {
         completedOp = true;
         operate(numOne, numTwo, operator)
     }
-});
+}
 
 posNegButton.addEventListener('click', () => {
     if (Number(currentDisplay.textContent) > 0)
@@ -74,6 +91,13 @@ posNegButton.addEventListener('click', () => {
     else 
         currentDisplay.textContent = (Math.abs(Number(currentDisplay.textContent)));
 });
+
+decButton.addEventListener('click', () => {
+    if (!isDecimal) {
+        currentDisplay.textContent += '.';
+        isDecimal = true;
+    }
+})
 
 function refresh(){
     currentDisplay.textContent = '';
@@ -104,21 +128,21 @@ function add(num1, num2){
     finalNum = num1 + num2;
     finalNum = roundTo(finalNum);
     currentDisplay.textContent = finalNum;
-    numOne = finalNum;
+    numOne = Number(finalNum);
 }
 
 function subtract(num1, num2){
     finalNum = num1 - num2;
     finalNum = roundTo(finalNum);
     currentDisplay.textContent = finalNum;
-    numOne = finalNum;
+    numOne = Number(finalNum);
 }
 
 function multiply(num1, num2){
     finalNum = num1 * num2;
     finalNum = roundTo(finalNum);
     currentDisplay.textContent = finalNum;
-    numOne = finalNum;
+    numOne = Number(finalNum);
 }
 
 function divide(num1, num2){
@@ -129,7 +153,7 @@ function divide(num1, num2){
         finalNum = num1 / num2;
         finalNum = roundTo(finalNum);
         currentDisplay.textContent = finalNum;
-        numOne = finalNum;
+        numOne = Number(finalNum);
     }
 }
 
@@ -144,6 +168,10 @@ function divideZero(){
 function roundTo(n) {
     var negative = false;
     var digits = 4;
+    if (n % 1 === 0) {
+        isDecimal = false;
+        return n;
+    }
     if (n < 0) {
         negative = true;
         n = n * -1;
@@ -154,5 +182,7 @@ function roundTo(n) {
     if (negative) {
         n = (n * -1).toFixed(digits);
     }
-    return n;
+    isDecimal = true;
+    n = n.toString() 
+    return Number(n);
 }
