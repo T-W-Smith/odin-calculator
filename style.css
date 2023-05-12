@@ -33,6 +33,10 @@
     justify-content: flex-end;
 }
 
+#zero {
+    flex-grow: 1;
+}
+
 .buttons {
     width: 100%;
     display: flex;
