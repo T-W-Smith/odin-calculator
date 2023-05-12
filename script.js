@@ -3,6 +3,7 @@ let operator;
 let finalNum;
 let refreshScreen = false;
 let completedOp = false;
+let temp = false;
 let isDecimal = false;
 
 const currentDisplay = document.getElementById('currentDisplay');
@@ -15,20 +16,69 @@ const equalsButton = document.getElementById('equals');
 const posNegButton = document.getElementById('pos-neg');
 const decButton = document.getElementById('decimal');
 
+document.addEventListener('keydown', (e) => {
+    if (e.key.match(/[0-9]/g)){
+        if (completedOp)
+                clear();
+        if (currentDisplay.textContent === '0' || refreshScreen)
+            refresh();
+        if (e.key)
+            currentDisplay.textContent += e.key;
+    }
+
+    if (e.key.match(/[/*+-]/g)){
+        if (numOne){
+            if(!completedOp)
+                equals();
+        }
+        if (!currentDisplay.textContent)
+            return;
+        else {
+            isDecimal = false;
+            operator = e.key;
+            numOne = Number(currentDisplay.textContent);
+            refreshScreen = true;
+            completedOp = false;
+            prevDisplay.textContent = numOne + ' ' + operator;
+        }
+    }
+
+    if (e.key.match(/[=]/g) || e.key === 'Enter'){
+        equals();
+    }
+
+    if (e.key === 'Escape'){
+        clear();
+    }
+
+    if (e.key === 'Backspace' || e.key === 'Delete'){
+        remove();
+    }
+
+    if (e.key.match(/[.]/g)){
+        if (!isDecimal) {
+            currentDisplay.textContent += '.';
+            isDecimal = true;
+        }
+    }
+});
+
 numButtons.forEach(button => {
     button.addEventListener('click', (e) => {
         if (completedOp)
             clear();
         if (currentDisplay.textContent === '0' || refreshScreen)
             refresh();
-        currentDisplay.textContent += button.getAttribute('data-num');;
+        currentDisplay.textContent += button.getAttribute('data-num');
     })
 });
 
 opButtons.forEach(button => {
     button.addEventListener('click', (e) => {
-        if (numOne)
-            equals();
+        if (numOne){
+            if(!completedOp)
+                equals();
+        }
         if (!currentDisplay.textContent)
             return;
         else {
@@ -58,13 +108,17 @@ function clear(){
 }
 
 deleteButton.addEventListener('click', () => {
+    remove();
+});
+
+function remove(){
     delVal = currentDisplay.textContent.charAt(currentDisplay.textContent.length - 1);
     if (delVal === '.')
         isDecimal = false;
     currentDisplay.textContent = currentDisplay.textContent.slice(0, currentDisplay.textContent.length - 1);
     if (!currentDisplay.textContent)
         currentDisplay.textContent = '0';
-});
+}
 
 equalsButton.addEventListener('click', () => {
     equals();
@@ -74,7 +128,7 @@ function equals(){
     if (completedOp) {
         prevDisplay.textContent = numOne + ' ' + operator + ' ' + numTwo;
         refreshScreen = true;
-        operate(numOne, numTwo, operator)
+        operate(numOne, numTwo, operator);
     }
     else if (!currentDisplay.textContent || !operator)
         return;
@@ -109,6 +163,7 @@ function refresh(){
 }
 
 function operate(one, two, op){
+    console.log(numOne + ' ' + operator + ' ' + numTwo);
     switch (op){
         case '+':
             add(one, two);
