@@ -22,8 +22,12 @@ document.addEventListener('keydown', (e) => {
                 clear();
         if (currentDisplay.textContent === '0' || refreshScreen)
             refresh();
-        if (e.key)
-            currentDisplay.textContent += e.key;
+        if (e.key) {
+            if (currentDisplay.textContent.length >= 10)
+                return;
+            else
+                currentDisplay.textContent += e.key;
+        }
     }
 
     if (e.key.match(/[/*+-]/g)){
@@ -39,7 +43,10 @@ document.addEventListener('keydown', (e) => {
             numOne = Number(currentDisplay.textContent);
             refreshScreen = true;
             completedOp = false;
-            prevDisplay.textContent = numOne + ' ' + operator;
+            if(numOne.toString().length >= 12)
+                prevDisplay.textContent = numOne.toExponential(6) + ' ' + operator;
+            else
+                prevDisplay.textContent = numOne + ' ' + operator;
         }
     }
 
@@ -69,7 +76,10 @@ numButtons.forEach(button => {
             clear();
         if (currentDisplay.textContent === '0' || refreshScreen)
             refresh();
-        currentDisplay.textContent += button.getAttribute('data-num');
+        if (currentDisplay.textContent.length >= 10)
+            return;
+        else
+            currentDisplay.textContent += button.getAttribute('data-num');
     })
 });
 
@@ -87,7 +97,10 @@ opButtons.forEach(button => {
             numOne = Number(currentDisplay.textContent);
             refreshScreen = true;
             completedOp = false;
-            prevDisplay.textContent = numOne + ' ' + operator;
+            if(numOne.toString().length >= 12)
+                prevDisplay.textContent = numOne.toExponential(6) + ' ' + operator;
+            else
+                prevDisplay.textContent = numOne + ' ' + operator;
         }
     })
 });
@@ -126,7 +139,10 @@ equalsButton.addEventListener('click', () => {
 
 function equals(){
     if (completedOp) {
-        prevDisplay.textContent = numOne + ' ' + operator + ' ' + numTwo;
+        if(numOne.toString().length >= 12)
+            prevDisplay.textContent = numOne.toExponential(6) + ' ' + operator + ' ' + numTwo;
+        else
+            prevDisplay.textContent = numOne + ' ' + operator + ' ' + numTwo;
         refreshScreen = true;
         operate(numOne, numTwo, operator);
     }
@@ -134,7 +150,10 @@ function equals(){
         return;
     else {
         numTwo = Number(currentDisplay.textContent);
-        prevDisplay.textContent = numOne + ' ' + operator + ' ' + numTwo;
+        if(numOne.toString().length >= 12)
+            prevDisplay.textContent = numOne.toExponential(6) + ' ' + operator + ' ' + numTwo;
+        else
+            prevDisplay.textContent = numOne + ' ' + operator + ' ' + numTwo;
         refreshScreen = true;
         completedOp = true;
         operate(numOne, numTwo, operator)
@@ -185,6 +204,8 @@ function operate(one, two, op){
 function add(num1, num2){
     finalNum = num1 + num2;
     finalNum = roundTo(finalNum);
+    if(finalNum.toString().length >= 12)
+        finalNum = finalNum.toExponential(6);
     currentDisplay.textContent = finalNum;
     numOne = Number(finalNum);
 }
@@ -192,6 +213,8 @@ function add(num1, num2){
 function subtract(num1, num2){
     finalNum = num1 - num2;
     finalNum = roundTo(finalNum);
+    if(finalNum.toString().length >= 12)
+        finalNum = finalNum.toExponential(6);
     currentDisplay.textContent = finalNum;
     numOne = Number(finalNum);
 }
@@ -199,6 +222,8 @@ function subtract(num1, num2){
 function multiply(num1, num2){
     finalNum = num1 * num2;
     finalNum = roundTo(finalNum);
+    if(finalNum.toString().length >= 12)
+        finalNum = finalNum.toExponential(6);
     currentDisplay.textContent = finalNum;
     numOne = Number(finalNum);
 }
@@ -210,6 +235,8 @@ function divide(num1, num2){
     else {
         finalNum = num1 / num2;
         finalNum = roundTo(finalNum);
+        if(finalNum.toString().length >= 12)
+            finalNum = finalNum.toExponential(6);
         currentDisplay.textContent = finalNum;
         numOne = Number(finalNum);
     }
