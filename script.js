@@ -1,11 +1,15 @@
+// Keeps track of inputed numbers and operator
 let numOne, numTwo;
 let operator;
 let finalNum;
+
+// Bools
 let refreshScreen = false;
 let completedOp = false;
 let temp = false;
 let isDecimal = false;
 
+// Elements
 const currentDisplay = document.getElementById('currentDisplay');
 const prevDisplay = document.getElementById('prevDisplay');
 const numButtons = document.querySelectorAll('.numButton');
@@ -16,12 +20,15 @@ const equalsButton = document.getElementById('equals');
 const posNegButton = document.getElementById('pos-neg');
 const decButton = document.getElementById('decimal');
 
+// Event listener for if the user wants to use numpad/keyboard for input
 document.addEventListener('keydown', (e) => {
+    // 0-9 inputs
     if (e.key.match(/[0-9]/g)){
         if (completedOp)
                 clear();
         if (currentDisplay.textContent === '0' || refreshScreen)
             refresh();
+        // Prevents user from going over 10 inputed numbers at a time
         if (e.key) {
             if (currentDisplay.textContent.length >= 10)
                 return;
@@ -30,6 +37,7 @@ document.addEventListener('keydown', (e) => {
         }
     }
 
+    // Operation inputs
     if (e.key.match(/[/*+-]/g)){
         if (numOne){
             if(!completedOp)
@@ -43,6 +51,7 @@ document.addEventListener('keydown', (e) => {
             numOne = Number(currentDisplay.textContent);
             refreshScreen = true;
             completedOp = false;
+            // Converts number to exponential form if it goes over 12 digits
             if(numOne.toString().length >= 12)
                 prevDisplay.textContent = numOne.toExponential(6) + ' ' + operator;
             else
@@ -50,18 +59,22 @@ document.addEventListener('keydown', (e) => {
         }
     }
 
+    // Equals input
     if (e.key.match(/[=]/g) || e.key === 'Enter'){
         equals();
     }
 
+    // Clear input
     if (e.key === 'Escape'){
         clear();
     }
 
+    // Remove previous input
     if (e.key === 'Backspace' || e.key === 'Delete'){
         remove();
     }
 
+    // Decimal input
     if (e.key.match(/[.]/g)){
         if (!isDecimal) {
             currentDisplay.textContent += '.';
@@ -70,12 +83,14 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
+// Event listener for numbers if the user wants to use the onscreen inputs
 numButtons.forEach(button => {
     button.addEventListener('click', (e) => {
         if (completedOp)
             clear();
         if (currentDisplay.textContent === '0' || refreshScreen)
             refresh();
+        // Prevents user from going over 10 inputed numbers at a time
         if (currentDisplay.textContent.length >= 10)
             return;
         else
@@ -83,6 +98,7 @@ numButtons.forEach(button => {
     })
 });
 
+// Event listener for operators if the user wants to use the onscreen inputs
 opButtons.forEach(button => {
     button.addEventListener('click', (e) => {
         if (numOne){
@@ -97,6 +113,7 @@ opButtons.forEach(button => {
             numOne = Number(currentDisplay.textContent);
             refreshScreen = true;
             completedOp = false;
+            // Converts number to exponential form if it goes over 12 digits
             if(numOne.toString().length >= 12)
                 prevDisplay.textContent = numOne.toExponential(6) + ' ' + operator;
             else
@@ -105,10 +122,12 @@ opButtons.forEach(button => {
     })
 });
 
+// Event listener for the clear button
 clearButton.addEventListener('click', () => {
     clear();
 });
 
+// Clears/resets the calculator
 function clear(){
     currentDisplay.textContent = '0';
     prevDisplay.textContent = '\xa0';
@@ -120,10 +139,12 @@ function clear(){
     roundOp = false;
 }
 
+// Event listener for the delete button
 deleteButton.addEventListener('click', () => {
     remove();
 });
 
+// Removes the previous inputted number
 function remove(){
     delVal = currentDisplay.textContent.charAt(currentDisplay.textContent.length - 1);
     if (delVal === '.')
@@ -133,12 +154,15 @@ function remove(){
         currentDisplay.textContent = '0';
 }
 
+// Event listener for the equals button
 equalsButton.addEventListener('click', () => {
     equals();
 });
 
+// Completes the inputted operation
 function equals(){
     if (completedOp) {
+        // Converts number to exponential form if it goes over 12 digits
         if(numOne.toString().length >= 12)
             prevDisplay.textContent = numOne.toExponential(6) + ' ' + operator + ' ' + numTwo;
         else
@@ -150,6 +174,7 @@ function equals(){
         return;
     else {
         numTwo = Number(currentDisplay.textContent);
+        // Converts number to exponential form if it goes over 12 digits
         if(numOne.toString().length >= 12)
             prevDisplay.textContent = numOne.toExponential(6) + ' ' + operator + ' ' + numTwo;
         else
@@ -160,6 +185,7 @@ function equals(){
     }
 }
 
+// Event listener for the positive/negative button
 posNegButton.addEventListener('click', () => {
     if (currentDisplay.textContent === '0')
         currentDisplay.textContent = '-'
@@ -169,6 +195,7 @@ posNegButton.addEventListener('click', () => {
         currentDisplay.textContent = (Math.abs(Number(currentDisplay.textContent)));
 });
 
+// Event listener for the decimal button
 decButton.addEventListener('click', () => {
     if (!isDecimal) {
         currentDisplay.textContent += '.';
@@ -176,11 +203,13 @@ decButton.addEventListener('click', () => {
     }
 })
 
+// Refreshs the display screen
 function refresh(){
     currentDisplay.textContent = '';
     refreshScreen = false;
 }
 
+// Performs the operation based on the selected operator
 function operate(one, two, op){
     console.log(numOne + ' ' + operator + ' ' + numTwo);
     switch (op){
@@ -201,33 +230,40 @@ function operate(one, two, op){
     }
 }
 
+// Addition function
 function add(num1, num2){
     finalNum = num1 + num2;
     finalNum = roundTo(finalNum);
+    // Converts number to exponential form if it goes over 12 digits
     if(finalNum.toString().length >= 12)
         finalNum = finalNum.toExponential(6);
     currentDisplay.textContent = finalNum;
     numOne = Number(finalNum);
 }
 
+// Subtraction function
 function subtract(num1, num2){
     finalNum = num1 - num2;
     finalNum = roundTo(finalNum);
+    // Converts number to exponential form if it goes over 12 digits
     if(finalNum.toString().length >= 12)
         finalNum = finalNum.toExponential(6);
     currentDisplay.textContent = finalNum;
     numOne = Number(finalNum);
 }
 
+// Multiplication function
 function multiply(num1, num2){
     finalNum = num1 * num2;
     finalNum = roundTo(finalNum);
+    // Converts number to exponential form if it goes over 12 digits
     if(finalNum.toString().length >= 12)
         finalNum = finalNum.toExponential(6);
     currentDisplay.textContent = finalNum;
     numOne = Number(finalNum);
 }
 
+// Division Function
 function divide(num1, num2){
     if (num2 === 0) {
         divideZero();
@@ -235,6 +271,7 @@ function divide(num1, num2){
     else {
         finalNum = num1 / num2;
         finalNum = roundTo(finalNum);
+        // Converts number to exponential form if it goes over 12 digits
         if(finalNum.toString().length >= 12)
             finalNum = finalNum.toExponential(6);
         currentDisplay.textContent = finalNum;
@@ -242,6 +279,7 @@ function divide(num1, num2){
     }
 }
 
+// Checks for divide by 0
 function divideZero(){
     currentDisplay.textContent = 'Error';
     numOne = undefined;
@@ -250,6 +288,7 @@ function divideZero(){
     completedOp = false;
 }
 
+// Rounds decimal values to 4 digits
 function roundTo(n) {
     var negative = false;
     var digits = 4;
